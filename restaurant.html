@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCity Restaurant | Nairobi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <style>
+    /* ── Hero ── */
+    .rest-hero {
+      position:relative; height:clamp(320px,52vh,520px); border-radius:22px; overflow:hidden; margin:1.5rem 0 2.5rem;
+    }
+    .rest-hero img { width:100%; height:100%; object-fit:cover; display:block; }
+    .rest-hero-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to top, rgba(17,34,29,0.78) 0%, rgba(17,34,29,0.1) 60%, transparent 100%);
+      display:flex; flex-direction:column; justify-content:flex-end; padding:2rem 2.2rem; color:#fff;
+    }
+    .rest-hero-overlay h1 { font-family:"DM Serif Display",Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); line-height:1.1; margin-bottom:0.5rem; }
+    .rest-hero-overlay p { opacity:0.88; max-width:50ch; }
+    .hero-chips { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:1rem; }
+    .hero-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:999px; padding:0.3rem 0.75rem; font-size:0.8rem; font-weight:600; color:#fff; backdrop-filter:blur(4px); }
+
+    /* ── Hours strip ── */
+    .hours-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:0 0 2.5rem; }
+    .hour-box { background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:1rem 1.1rem; text-align:center; box-shadow:var(--shadow); }
+    .hour-box .day { font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--muted); margin-bottom:0.3rem; }
+    .hour-box .time { font-size:1rem; font-weight:700; color:var(--ink); }
+    .hour-box .note { font-size:0.78rem; color:var(--muted); margin-top:0.15rem; }
+
+    /* ── Menu tabs ── */
+    .menu-tabs { display:flex; gap:0; border-bottom:2px solid var(--line); margin-bottom:1.75rem; flex-wrap:wrap; }
+    .mtab { background:none; border:none; border-bottom:2px solid transparent; margin-bottom:-2px; padding:0.7rem 1.2rem; font-family:inherit; font-size:0.95rem; font-weight:600; color:var(--muted); cursor:pointer; transition:color 0.2s, border-color 0.2s; }
+    .mtab.active { color:var(--ink); border-bottom-color:var(--brand); }
+    .menu-panel { display:none; }
+    .menu-panel.active { display:block; animation:rise 0.3s ease; }
+
+    /* ── Menu grid ── */
+    .menu-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.1rem; padding-bottom:0.5rem; }
+    .menu-card { background:var(--surface); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:var(--shadow); transition:transform 0.2s,box-shadow 0.2s; }
+    .menu-card:hover { transform:translateY(-4px); box-shadow:0 16px 36px rgba(17,34,29,0.13); }
+    .menu-img { height:160px; overflow:hidden; }
+    .menu-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.35s; }
+    .menu-card:hover .menu-img img { transform:scale(1.07); }
+    .menu-body { padding:0.9rem; display:grid; gap:0.45rem; }
+    .menu-top { display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; }
+    .dish-name { font-size:0.97rem; font-weight:700; }
+    .dish-price { font-size:0.97rem; font-weight:700; color:var(--brand-dark); white-space:nowrap; }
+    .dish-desc { font-size:0.84rem; color:var(--muted); line-height:1.55; }
+    .dish-tags { display:flex; gap:0.35rem; flex-wrap:wrap; }
+    .dish-tag { background:#fef6e8; color:#a56c00; border-radius:999px; padding:0.2rem 0.55rem; font-size:0.72rem; font-weight:700; }
+    .dish-tag.veg { background:#edf7ed; color:#2e7d32; }
+    .dish-tag.hot { background:#fff0ec; color:#c0390a; }
+    .order-btn { width:100%; background:var(--brand); color:#fff; border:none; border-radius:999px; padding:0.55rem; font-family:inherit; font-weight:700; font-size:0.85rem; cursor:pointer; transition:background 0.2s; }
+    .order-btn:hover { background:var(--brand-dark); }
+
+    /* ── Photo strip ── */
+    .food-gallery { display:grid; grid-template-columns:repeat(4,1fr); gap:0.75rem; margin:2rem 0; border-radius:16px; overflow:hidden; }
+    .food-gallery img { width:100%; height:160px; object-fit:cover; display:block; transition:transform 0.35s; }
+    .food-gallery img:hover { transform:scale(1.05); }
+
+    /* ── Specials ── */
+    .specials-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:2rem 0; }
+    .special-card { border-radius:18px; overflow:hidden; position:relative; height:200px; }
+    .special-card img { width:100%; height:100%; object-fit:cover; }
+    .special-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(17,34,29,0.82), transparent 60%); display:flex; flex-direction:column; justify-content:flex-end; padding:1.2rem; color:#fff; }
+    .special-overlay h3 { font-family:"DM Serif Display",Georgia,serif; font-size:1.2rem; margin-bottom:0.2rem; }
+    .special-overlay p { font-size:0.83rem; opacity:0.85; }
+    .special-badge { display:inline-block; background:var(--brand); color:#fff; border-radius:999px; padding:0.2rem 0.6rem; font-size:0.72rem; font-weight:700; margin-bottom:0.4rem; }
+
+    /* ── CTA ── */
+    .rest-cta { background:linear-gradient(120deg, #3d1a00, #b05010); color:#fff; border-radius:20px; padding:2rem 2.2rem; display:flex; justify-content:space-between; align-items:center; gap:1.5rem; flex-wrap:wrap; margin:2rem 0 3rem; }
+    .rest-cta h2 { font-family:"DM Serif Display",Georgia,serif; font-size:clamp(1.5rem,3vw,2.2rem); margin-bottom:0.4rem; }
+    .rest-cta p { opacity:0.82; font-size:0.95rem; }
+    .cta-btns { display:flex; gap:0.75rem; flex-wrap:wrap; }
+
+    @media(max-width:860px) {
+      .menu-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .hours-strip { grid-template-columns:1fr; }
+      .food-gallery { grid-template-columns:repeat(2,1fr); }
+      .specials-grid { grid-template-columns:1fr; }
+      .rest-cta { flex-direction:column; text-align:center; }
+    }
+    @media(max-width:540px) {
+      .menu-grid { grid-template-columns:1fr; }
+      .food-gallery { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="logo" href="index.html">SmartCity</a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links">
+        <a href="index.html#products">Shop</a>
+        <a href="index.html#deals">Deals</a>
+        <a href="bnb.html">BnB</a>
+        <a href="restaurant.html" style="color:var(--brand);font-weight:700;">Restaurant</a>
+        <a href="index.html">Support</a>
+      </nav>
+      <a class="cart" href="Cart.html">Cart: <span id="cartCount">0</span></a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Hero -->
+    <div class="rest-hero">
+      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=85" alt="SmartCity Restaurant">
+      <div class="rest-hero-overlay">
+        <p class="section-label" style="color:rgba(255,255,255,0.75);">Food Hotel &amp; Restaurant</p>
+        <h1>Good food, warm vibes,<br>every day</h1>
+        <p>Home-cooked meals, fresh juices, and hearty breakfasts — all under one roof in Nairobi.</p>
+        <div class="hero-chips">
+          <span class="hero-chip">🍳 Breakfast</span>
+          <span class="hero-chip">🍛 Lunch &amp; Dinner</span>
+          <span class="hero-chip">🥤 Fresh Juices</span>
+          <span class="hero-chip">📦 Takeaway</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Opening Hours -->
+    <span class="section-label">We are open</span>
+    <h2 class="section-heading" style="margin-bottom:1.25rem;">Opening hours</h2>
+    <div class="hours-strip">
+      <div class="hour-box">
+        <div class="day">Mon – Fri</div>
+        <div class="time">6:30 AM – 10:00 PM</div>
+        <div class="note">Breakfast, lunch &amp; dinner</div>
+      </div>
+      <div class="hour-box">
+        <div class="day">Saturday</div>
+        <div class="time">7:00 AM – 11:00 PM</div>
+        <div class="note">Weekend special menu</div>
+      </div>
+      <div class="hour-box">
+        <div class="day">Sunday</div>
+        <div class="time">8:00 AM – 9:00 PM</div>
+        <div class="note">Sunday brunch available</div>
+      </div>
+    </div>
+
+    <!-- Menu -->
+    <span class="section-label">Our menu</span>
+    <h2 class="section-heading">What's cooking today</h2>
+    <div class="menu-tabs">
+      <button class="mtab active" data-menu="breakfast">Breakfast</button>
+      <button class="mtab" data-menu="lunch">Lunch &amp; Dinner</button>
+      <button class="mtab" data-menu="drinks">Drinks &amp; Snacks</button>
+    </div>
+
+    <div class="menu-panel active" id="menu-breakfast">
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=400&q=80" alt="Full English Breakfast" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Full Breakfast Plate</span><span class="dish-price">KES 450</span></div>
+            <p class="dish-desc">Eggs your way, sausages, toast, beans, and a cup of chai or black tea.</p>
+            <div class="dish-tags"><span class="dish-tag">Filling</span><span class="dish-tag hot">Popular</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order a Full Breakfast Plate.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1484723091739-30990106f0de?w=400&q=80" alt="Mandazi and Tea" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Mandazi &amp; Chai</span><span class="dish-price">KES 120</span></div>
+            <p class="dish-desc">Fresh mandazi fried daily, served with a large cup of spiced Kenyan chai.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegetarian</span><span class="dish-tag hot">Best Seller</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Mandazi and Chai.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=80" alt="Pancakes" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Pancakes &amp; Honey</span><span class="dish-price">KES 280</span></div>
+            <p class="dish-desc">Fluffy pancakes stacked with honey drizzle, fruit slices, and cream.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegetarian</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Pancakes and Honey.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&q=80" alt="Avocado Toast" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Avocado Toast</span><span class="dish-price">KES 320</span></div>
+            <p class="dish-desc">Thick-cut brown toast topped with fresh avo, tomato, and a poached egg.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegetarian</span><span class="dish-tag">Healthy</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Avocado Toast.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80" alt="Fruit Bowl" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Fresh Fruit Bowl</span><span class="dish-price">KES 200</span></div>
+            <p class="dish-desc">Seasonal Kenyan fruits — pawpaw, watermelon, pineapple, banana — sliced fresh daily.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegan</span><span class="dish-tag">Healthy</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order a Fresh Fruit Bowl.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1493770348161-369560ae357d?w=400&q=80" alt="Omelette" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Cheese Omelette</span><span class="dish-price">KES 350</span></div>
+            <p class="dish-desc">Three-egg omelette with melted cheddar, tomato, onions, and green pepper. Served with toast.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegetarian</span><span class="dish-tag hot">Popular</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order a Cheese Omelette.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="menu-lunch">
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1567364347311-b36e10a2be75?w=400&q=80" alt="Nyama Choma" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Nyama Choma</span><span class="dish-price">KES 850/kg</span></div>
+            <p class="dish-desc">Slow-roasted beef or goat, seasoned and served with kachumbari and ugali.</p>
+            <div class="dish-tags"><span class="dish-tag hot">House Special</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Nyama Choma. Please advise on quantity and availability.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80" alt="Pilau" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Pilau &amp; Kachumbari</span><span class="dish-price">KES 380</span></div>
+            <p class="dish-desc">Aromatic spiced rice with beef or chicken, served with fresh tomato and onion kachumbari.</p>
+            <div class="dish-tags"><span class="dish-tag hot">Best Seller</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Pilau and Kachumbari.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80" alt="Rice and Stew" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Rice &amp; Beef Stew</span><span class="dish-price">KES 320</span></div>
+            <p class="dish-desc">Tender beef stew in rich tomato sauce, served with steamed white rice and sukuma wiki.</p>
+            <div class="dish-tags"><span class="dish-tag">Filling</span><span class="dish-tag hot">Daily Special</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Rice and Beef Stew.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=400&q=80" alt="Grilled Chicken" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Grilled Chicken</span><span class="dish-price">KES 650</span></div>
+            <p class="dish-desc">Half a chicken marinated in spices and grilled, served with fries or ugali and salad.</p>
+            <div class="dish-tags"><span class="dish-tag hot">Popular</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Grilled Chicken.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=80" alt="Githeri" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Special Githeri</span><span class="dish-price">KES 220</span></div>
+            <p class="dish-desc">Maize and beans cooked with sautéed vegetables, tomatoes, and a hint of cumin.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegetarian</span><span class="dish-tag">Affordable</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Special Githeri.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=80" alt="Chips and Fish" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Chips &amp; Fish</span><span class="dish-price">KES 450</span></div>
+            <p class="dish-desc">Crispy golden chips with a whole fried Tilapia, served with tartar sauce and lemon.</p>
+            <div class="dish-tags"><span class="dish-tag hot">Friday Special</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Chips and Fish.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="menu-drinks">
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1622597467836-f3285f2131b8?w=400&q=80" alt="Fresh Juice" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Fresh Juice</span><span class="dish-price">KES 150</span></div>
+            <p class="dish-desc">Freshly squeezed passion, mango, watermelon, or pineapple. Ask for your blend.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegan</span><span class="dish-tag">No Sugar</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order a Fresh Juice.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Kenyan Tea" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Kenyan Chai</span><span class="dish-price">KES 80</span></div>
+            <p class="dish-desc">Strong, milky, spiced chai made with real ginger and cardamom. Refill available.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegetarian</span><span class="dish-tag hot">Classic</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Kenyan Chai.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400&q=80" alt="Smoothie" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Tropical Smoothie</span><span class="dish-price">KES 250</span></div>
+            <p class="dish-desc">Blended mango, banana, and passion with yoghurt and a touch of honey.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegan</span><span class="dish-tag">Healthy</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order a Tropical Smoothie.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1605548109944-9040d0b3c48e?w=400&q=80" alt="Samosa" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Samosa (3 pcs)</span><span class="dish-price">KES 120</span></div>
+            <p class="dish-desc">Crispy fried pastry filled with seasoned minced beef or spiced vegetables.</p>
+            <div class="dish-tags"><span class="dish-tag hot">Snack</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order Samosas (3 pcs).'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=400&q=80" alt="Coffee" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Black Coffee</span><span class="dish-price">KES 120</span></div>
+            <p class="dish-desc">Rich Kenyan arabica, served as espresso, americano, or filter — your choice.</p>
+            <div class="dish-tags"><span class="dish-tag veg">Vegan</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order a Black Coffee.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-img"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80" alt="Burger" loading="lazy"></div>
+          <div class="menu-body">
+            <div class="menu-top"><span class="dish-name">Beef Burger</span><span class="dish-price">KES 480</span></div>
+            <p class="dish-desc">Homemade beef patty, cheddar, lettuce, tomato, and special sauce in a brioche bun. Comes with fries.</p>
+            <div class="dish-tags"><span class="dish-tag hot">Weekend Special</span></div>
+            <button class="order-btn" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to order a Beef Burger.'),'_blank')">Order via WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Food gallery -->
+    <span class="section-label" style="margin-top:2rem;display:block;">Restaurant ambience</span>
+    <h2 class="section-heading">A place you'll want to come back to</h2>
+    <div class="food-gallery">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80" alt="Restaurant interior" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80" alt="Dining area" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80" alt="Food plating" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80" alt="Menu spread" loading="lazy">
+    </div>
+
+    <!-- Daily Specials -->
+    <span class="section-label">Limited daily offers</span>
+    <h2 class="section-heading" style="margin-bottom:1.25rem;">Today's specials</h2>
+    <div class="specials-grid">
+      <div class="special-card">
+        <img src="https://images.unsplash.com/photo-1567367602990-61f24f6c9cf1?w=600&q=85" alt="Lunch Special" loading="lazy">
+        <div class="special-overlay">
+          <span class="special-badge">Mon – Fri Lunch</span>
+          <h3>Combo Lunch Deal</h3>
+          <p>Any main + juice + dessert for KES 550. Valid 12PM–3PM only.</p>
+        </div>
+      </div>
+      <div class="special-card">
+        <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=600&q=85" alt="Weekend Brunch" loading="lazy">
+        <div class="special-overlay">
+          <span class="special-badge">Saturday &amp; Sunday</span>
+          <h3>Weekend Brunch Buffet</h3>
+          <p>All-you-can-eat brunch for KES 800. 8AM–12PM every weekend.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="rest-cta">
+      <div>
+        <h2>Ready to eat?</h2>
+        <p>Order ahead via WhatsApp — dine in, takeaway, or delivery within the area.</p>
+      </div>
+      <div class="cta-btns">
+        <button class="btn btn-primary" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello SmartCity Restaurant! I would like to place a food order.'),'_blank')" style="display:flex;align-items:center;gap:0.5rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Order on WhatsApp
+        </button>
+        <a class="btn btn-secondary" href="bnb.html">Book a Room</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="container foot">
+    <p style="margin-bottom:0.5rem;font-weight:700;color:var(--ink);">SmartCity &mdash; Your one-stop destination</p>
+    <p style="margin-bottom:0.75rem;"><a href="index.html" style="color:var(--accent);">&#128241; Phone Accessories</a> &nbsp;|&nbsp; <a href="bnb.html" style="color:var(--accent);">&#127968; BnB Stay</a> &nbsp;|&nbsp; &#127869;&#65039; Restaurant</p>
+    <p>&#169; 2026 SmartCity. Nairobi, Kenya</p>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <div class="wa-float">
+    <div class="wa-bubble" id="waBubble">Order food or book a table 🍽️</div>
+    <button class="wa-btn" id="waFloatBtn" aria-label="Order on WhatsApp">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </button>
+  </div>
+
+  <script>
+    document.querySelector(".nav-toggle")?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
+    // Menu tabs
+    document.querySelectorAll(".mtab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".mtab").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".menu-panel").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("menu-" + btn.dataset.menu).classList.add("active");
+      });
+    });
+    // WhatsApp float
+    const waBubble = document.getElementById("waBubble");
+    setTimeout(() => { waBubble.classList.add("hidden"); }, 5000);
+    document.getElementById("waFloatBtn").addEventListener("click", () => {
+      window.open("https://wa.me/254700000000?text=" + encodeURIComponent("Hello SmartCity Restaurant! I would like to place a food order."), "_blank");
+    });
+    // sync cart
+    try { const items = JSON.parse(localStorage.getItem("smartcity_cart") || "[]"); document.getElementById("cartCount").textContent = items.reduce((s,i) => s+i.qty, 0); } catch {}
+  </script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCity BnB | Nairobi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <style>
+    /* ── Hero ── */
+    .bnb-hero {
+      position: relative;
+      height: clamp(340px, 55vh, 540px);
+      border-radius: 22px;
+      overflow: hidden;
+      margin: 1.5rem 0 2.5rem;
+    }
+    .bnb-hero img { width:100%; height:100%; object-fit:cover; display:block; }
+    .bnb-hero-overlay {
+      position: absolute; inset:0;
+      background: linear-gradient(to top, rgba(17,34,29,0.75) 0%, rgba(17,34,29,0.15) 60%, transparent 100%);
+      display:flex; flex-direction:column; justify-content:flex-end;
+      padding: 2rem 2.2rem;
+      color: #fff;
+    }
+    .bnb-hero-overlay h1 { font-family:"DM Serif Display",Georgia,serif; font-size:clamp(2rem,5vw,3.2rem); line-height:1.1; margin-bottom:0.5rem; }
+    .bnb-hero-overlay p { opacity:0.88; font-size:1rem; max-width:50ch; }
+    .hero-chips { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:1rem; }
+    .hero-chip { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:999px; padding:0.3rem 0.75rem; font-size:0.8rem; font-weight:600; color:#fff; backdrop-filter:blur(4px); }
+
+    /* ── Why Stay ── */
+    .why-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:2rem 0; }
+    .why-card { background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:1.2rem; box-shadow:var(--shadow); }
+    .why-icon { font-size:1.6rem; margin-bottom:0.6rem; }
+    .why-card h3 { font-size:1rem; font-weight:700; margin-bottom:0.3rem; }
+    .why-card p { font-size:0.9rem; color:var(--muted); line-height:1.6; }
+
+    /* ── Rooms ── */
+    .rooms-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.25rem; margin:2rem 0; }
+    .room-card { background:var(--surface); border:1px solid var(--line); border-radius:20px; overflow:hidden; box-shadow:var(--shadow); transition:transform 0.2s, box-shadow 0.2s; }
+    .room-card:hover { transform:translateY(-5px); box-shadow:0 18px 42px rgba(17,34,29,0.14); }
+    .room-img { height:200px; overflow:hidden; }
+    .room-img img { width:100%; height:100%; object-fit:cover; transition:transform 0.4s; }
+    .room-card:hover .room-img img { transform:scale(1.06); }
+    .room-body { padding:1.1rem; display:grid; gap:0.55rem; }
+    .room-header { display:flex; justify-content:space-between; align-items:flex-start; gap:0.5rem; }
+    .room-name { font-size:1.05rem; font-weight:700; }
+    .room-price { text-align:right; }
+    .room-price .amount { font-size:1.1rem; font-weight:700; color:var(--brand-dark); }
+    .room-price .per { font-size:0.78rem; color:var(--muted); display:block; }
+    .room-desc { font-size:0.88rem; color:var(--muted); line-height:1.6; }
+    .room-amenities { display:flex; gap:0.4rem; flex-wrap:wrap; }
+    .amenity { background:#f0f6f3; color:#0e6e56; border-radius:999px; padding:0.25rem 0.6rem; font-size:0.75rem; font-weight:600; }
+    .room-cta { display:flex; gap:0.5rem; }
+    .btn-book { background:var(--accent); color:#fff; border:none; border-radius:999px; padding:0.6rem 1rem; font-family:inherit; font-weight:700; font-size:0.88rem; cursor:pointer; flex:1; transition:background 0.2s; }
+    .btn-book:hover { background:#0a7d72; }
+    .btn-wa-sm { background:#25D366; color:#fff; border:none; border-radius:999px; padding:0.6rem 1rem; font-family:inherit; font-weight:700; font-size:0.88rem; cursor:pointer; display:flex; align-items:center; gap:0.4rem; transition:background 0.2s; }
+    .btn-wa-sm:hover { background:#1ebe5d; }
+
+    /* ── Gallery Strip ── */
+    .gallery-strip { display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:200px 200px; gap:0.75rem; border-radius:18px; overflow:hidden; margin:2rem 0; }
+    .gallery-strip img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s; }
+    .gallery-strip img:hover { transform:scale(1.04); }
+    .gallery-strip .span2 { grid-row: span 2; }
+
+    /* ── Info boxes ── */
+    .info-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:2rem 0; }
+    .info-box { background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:1.25rem; box-shadow:var(--shadow); }
+    .info-box h3 { font-size:1rem; font-weight:700; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.4rem; }
+    .info-list { list-style:none; display:grid; gap:0.45rem; }
+    .info-list li { font-size:0.9rem; color:var(--muted); display:flex; gap:0.5rem; }
+    .info-list li::before { content:"✓"; color:var(--accent); font-weight:700; flex-shrink:0; }
+
+    /* ── CTA Banner ── */
+    .bnb-cta { background:linear-gradient(120deg,#11221d,#225c52); color:#fff; border-radius:20px; padding:2rem 2.2rem; display:flex; justify-content:space-between; align-items:center; gap:1.5rem; flex-wrap:wrap; margin:2rem 0 3rem; }
+    .bnb-cta h2 { font-family:"DM Serif Display",Georgia,serif; font-size:clamp(1.5rem,3vw,2.2rem); margin-bottom:0.4rem; }
+    .bnb-cta p { opacity:0.8; font-size:0.95rem; }
+    .cta-btns { display:flex; gap:0.75rem; flex-wrap:wrap; }
+
+    @media(max-width:860px) {
+      .why-grid { grid-template-columns:1fr 1fr; }
+      .rooms-grid { grid-template-columns:1fr; }
+      .gallery-strip { grid-template-columns:1fr 1fr; grid-template-rows:160px 160px; }
+      .gallery-strip .span2 { grid-row:span 1; }
+      .info-row { grid-template-columns:1fr; }
+      .bnb-cta { flex-direction:column; text-align:center; }
+    }
+    @media(max-width:540px) {
+      .why-grid { grid-template-columns:1fr; }
+      .gallery-strip { grid-template-columns:1fr; grid-template-rows:auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="logo" href="index.html">SmartCity</a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links">
+        <a href="index.html#products">Shop</a>
+        <a href="index.html#deals">Deals</a>
+        <a href="bnb.html" style="color:var(--accent);font-weight:700;">BnB</a>
+        <a href="restaurant.html">Restaurant</a>
+        <a href="index.html">Support</a>
+      </nav>
+      <a class="cart" href="Cart.html">Cart: <span id="cartCount">0</span></a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Hero -->
+    <div class="bnb-hero">
+      <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=85" alt="SmartCity BnB interior">
+      <div class="bnb-hero-overlay">
+        <p class="section-label" style="color:rgba(255,255,255,0.75);">Nairobi, Kenya</p>
+        <h1>Your home away<br>from home</h1>
+        <p>Clean, comfortable rooms in the heart of Nairobi. Perfect for business trips, short stays, and weekend getaways.</p>
+        <div class="hero-chips">
+          <span class="hero-chip">✓ Free WiFi</span>
+          <span class="hero-chip">✓ Breakfast Available</span>
+          <span class="hero-chip">✓ 24/7 Security</span>
+          <span class="hero-chip">✓ Self Check-in</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why Stay With Us -->
+    <div class="page-hero" style="padding-top:0;">
+      <span class="section-label">Why stay with us</span>
+      <h2 class="section-heading">Comfort you can count on</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">📍</div>
+        <h3>Central Location</h3>
+        <p>Walking distance to supermarkets, matatu routes, restaurants, and shopping centres.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🔒</div>
+        <h3>Safe & Secure</h3>
+        <p>24/7 security guard, CCTV, and secure parking. Your safety is our priority.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🍳</div>
+        <h3>Breakfast Option</h3>
+        <p>Start your day right with a warm breakfast from our in-house restaurant — just steps away.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📶</div>
+        <h3>High-Speed WiFi</h3>
+        <p>Fibre internet throughout the property. Work, stream, and stay connected.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🧹</div>
+        <h3>Daily Housekeeping</h3>
+        <p>Fresh towels and a clean room every day. We take pride in our cleanliness standards.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📱</div>
+        <h3>Easy Booking</h3>
+        <p>Book directly via WhatsApp and pay with M-Pesa. Fast, simple, no hidden fees.</p>
+      </div>
+    </div>
+
+    <!-- Rooms -->
+    <span class="section-label">Our rooms</span>
+    <h2 class="section-heading">Find your perfect stay</h2>
+    <div class="rooms-grid">
+
+      <div class="room-card">
+        <div class="room-img"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=85" alt="Standard Room" loading="lazy"></div>
+        <div class="room-body">
+          <div class="room-header">
+            <span class="room-name">Standard Room</span>
+            <div class="room-price"><span class="amount">KES 2,500</span><span class="per">per night</span></div>
+          </div>
+          <p class="room-desc">A clean, cosy room with all essentials. Ideal for solo travellers or short business stays.</p>
+          <div class="room-amenities">
+            <span class="amenity">Queen Bed</span>
+            <span class="amenity">WiFi</span>
+            <span class="amenity">Hot Shower</span>
+            <span class="amenity">TV</span>
+          </div>
+          <div class="room-cta">
+            <button class="btn-book" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to book the Standard Room. Please advise on availability.'),'_blank')">Book Now</button>
+            <button class="btn-wa-sm" onclick="window.open('https://wa.me/254700000000','_blank')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Enquire
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="room-card">
+        <div class="room-img"><img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=600&q=85" alt="Deluxe Room" loading="lazy"></div>
+        <div class="room-body">
+          <div class="room-header">
+            <span class="room-name">Deluxe Room</span>
+            <div class="room-price"><span class="amount">KES 3,800</span><span class="per">per night</span></div>
+          </div>
+          <p class="room-desc">More space, better views, and upgraded furnishings. Great for couples or a comfortable extended stay.</p>
+          <div class="room-amenities">
+            <span class="amenity">King Bed</span>
+            <span class="amenity">WiFi</span>
+            <span class="amenity">En-suite</span>
+            <span class="amenity">TV</span>
+            <span class="amenity">Work Desk</span>
+          </div>
+          <div class="room-cta">
+            <button class="btn-book" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to book the Deluxe Room. Please advise on availability.'),'_blank')">Book Now</button>
+            <button class="btn-wa-sm" onclick="window.open('https://wa.me/254700000000','_blank')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Enquire
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="room-card">
+        <div class="room-img"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=85" alt="Family Suite" loading="lazy"></div>
+        <div class="room-body">
+          <div class="room-header">
+            <span class="room-name">Family Suite</span>
+            <div class="room-price"><span class="amount">KES 5,500</span><span class="per">per night</span></div>
+          </div>
+          <p class="room-desc">Spacious suite with separate living area. Sleeps up to 4 guests comfortably — perfect for families or group trips.</p>
+          <div class="room-amenities">
+            <span class="amenity">2 Bedrooms</span>
+            <span class="amenity">Living Area</span>
+            <span class="amenity">Kitchenette</span>
+            <span class="amenity">WiFi</span>
+          </div>
+          <div class="room-cta">
+            <button class="btn-book" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello! I would like to book the Family Suite. Please advise on availability.'),'_blank')">Book Now</button>
+            <button class="btn-wa-sm" onclick="window.open('https://wa.me/254700000000','_blank')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Enquire
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo Gallery -->
+    <span class="section-label">Photo gallery</span>
+    <h2 class="section-heading">See for yourself</h2>
+    <div class="gallery-strip">
+      <img class="span2" src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800&q=85" alt="BnB lobby" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&q=85" alt="Bathroom" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=400&q=85" alt="Room detail" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&q=85" alt="Common area" loading="lazy">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=85" alt="Exterior" loading="lazy">
+    </div>
+
+    <!-- Info -->
+    <div class="info-row">
+      <div class="info-box">
+        <h3>🕐 Check-in & Check-out</h3>
+        <ul class="info-list">
+          <li>Check-in from 2:00 PM</li>
+          <li>Check-out by 11:00 AM</li>
+          <li>Early check-in available on request</li>
+          <li>Late check-out: KES 500 extra</li>
+          <li>Self check-in with key handover</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>💳 Payment & Policies</h3>
+        <ul class="info-list">
+          <li>Pay via M-Pesa (Paybill or Till)</li>
+          <li>50% deposit to confirm booking</li>
+          <li>Balance on arrival</li>
+          <li>Free cancellation 24hrs before</li>
+          <li>ID required at check-in</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>📍 Location & Getting Here</h3>
+        <ul class="info-list">
+          <li>Nairobi — exact address on booking</li>
+          <li>Near major bus & matatu routes</li>
+          <li>10 min from CBD via taxi/Uber</li>
+          <li>Airport pickup available (fee applies)</li>
+          <li>Safe neighbourhood, well-lit street</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>🏠 House Rules</h3>
+        <ul class="info-list">
+          <li>No smoking inside rooms</li>
+          <li>No parties or loud music after 10 PM</li>
+          <li>Visitors must be registered</li>
+          <li>Pets not allowed</li>
+          <li>Keep common areas clean</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="bnb-cta">
+      <div>
+        <h2>Ready to book your stay?</h2>
+        <p>Message us on WhatsApp and we'll confirm your room in minutes.</p>
+      </div>
+      <div class="cta-btns">
+        <button class="btn btn-primary" onclick="window.open('https://wa.me/254700000000?text='+encodeURIComponent('Hello SmartCity BnB! I would like to make a reservation. Please share available dates and rooms.'),'_blank')" style="display:flex;align-items:center;gap:0.5rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Book on WhatsApp
+        </button>
+        <a class="btn btn-secondary" href="restaurant.html">Visit Our Restaurant</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="container foot">
+    <p style="margin-bottom:0.5rem;font-weight:700;color:var(--ink);">SmartCity &mdash; Your one-stop destination</p>
+    <p style="margin-bottom:0.75rem;"><a href="index.html" style="color:var(--accent);">&#128241; Phone Accessories</a> &nbsp;|&nbsp; &#127968; BnB Stay &nbsp;|&nbsp; <a href="restaurant.html" style="color:var(--brand);">&#127869;&#65039; Restaurant</a></p>
+    <p>&#169; 2026 SmartCity. Nairobi, Kenya</p>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <div class="wa-float">
+    <div class="wa-bubble" id="waBubble">Book a room or ask about availability 🏡</div>
+    <button class="wa-btn" id="waFloatBtn" aria-label="Chat on WhatsApp">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </button>
+  </div>
+
+  <script>
+    document.querySelector(".nav-toggle")?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
+    const waBubble = document.getElementById("waBubble");
+    setTimeout(() => { waBubble.classList.add("hidden"); }, 5000);
+    document.getElementById("waFloatBtn").addEventListener("click", () => {
+      window.open("https://wa.me/254700000000?text=" + encodeURIComponent("Hello SmartCity BnB! I would like to make a room reservation."), "_blank");
+    });
+    // sync cart count
+    try { const items = JSON.parse(localStorage.getItem("smartcity_cart") || "[]"); document.getElementById("cartCount").textContent = items.reduce((s,i) => s+i.qty, 0); } catch {}
+  </script>
+</body>
+</html>

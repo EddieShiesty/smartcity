@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCity Accessories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <style>
+    .thumb { border-radius: 14px; height: 180px; overflow: hidden; background: #e8ede8; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s ease; }
+    .card:hover .thumb img { transform: scale(1.06); }
+    .card { cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(17,34,29,0.15); }
+    .card-link { text-decoration: none; color: inherit; display: grid; gap: 0.7rem; }
+    .stars { color: #f5a623; font-size: 0.85rem; letter-spacing: 1px; }
+    .review-count { color: var(--muted); font-size: 0.82rem; margin-left: 4px; }
+    .add-feedback { background: var(--accent) !important; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="logo" href="#">SmartCity</a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links">
+        <a href="#products">Shop</a>
+        <a href="#deals">Deals</a>
+        <a href="bnb.html">BnB</a>
+        <a href="restaurant.html">Restaurant</a>
+        <a href="#">Support</a>
+      </nav>
+      <a class="cart" href="Cart.html">Cart: <span id="cartCount">0</span></a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Phone accessories that look good and last.</h1>
+      <p>Premium chargers, durable cases, and pro audio gear — delivered fast across Kenya.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#products">Shop Products</a>
+        <a class="btn btn-secondary" href="track orders.html">Track Order</a>
+      </div>
+    </section>
+
+    <section id="products" aria-label="Product list">
+      <div class="tools">
+        <input id="search" class="search" type="search" placeholder="Search accessories...">
+        <select id="sort" class="sort" aria-label="Sort products">
+          <option value="default">Sort: Featured</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+        </select>
+      </div>
+
+      <div class="filters" id="filters">
+        <button class="chip active" data-category="all">All</button>
+        <button class="chip" data-category="cases">Cases</button>
+        <button class="chip" data-category="chargers">Chargers</button>
+        <button class="chip" data-category="audio">Audio</button>
+        <button class="chip" data-category="mounts">Mounts</button>
+      </div>
+
+      <div class="grid" id="productGrid">
+
+        <article class="card" data-name="Armor Shock Case" data-price="2200" data-category="cases">
+          <a class="card-link" href="product.html?id=armor-shock-case">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400&q=80" alt="Armor Shock Case" loading="lazy"></div>
+            <h3>Armor Shock Case</h3>
+            <p class="small">Dual-layer drop protection with matte finish.</p>
+            <div><span class="stars">★★★★★</span><span class="review-count">(42)</span></div>
+            <div class="meta"><span class="price">KES 2,200</span><button class="btn btn-primary add">Add</button></div>
+          </a>
+        </article>
+
+        <article class="card" data-name="Clear MagSafe Case" data-price="1900" data-category="cases">
+          <a class="card-link" href="product.html?id=clear-magsafe-case">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=400&q=80" alt="Clear MagSafe Case" loading="lazy"></div>
+            <h3>Clear MagSafe Case</h3>
+            <p class="small">Slim transparent back with magnet ring support.</p>
+            <div><span class="stars">★★★★☆</span><span class="review-count">(28)</span></div>
+            <div class="meta"><span class="price">KES 1,900</span><button class="btn btn-primary add">Add</button></div>
+          </a>
+        </article>
+
+        <article class="card" data-name="65W Fast Charger" data-price="4000" data-category="chargers">
+          <a class="card-link" href="product.html?id=65w-fast-charger">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&q=80" alt="65W Fast Charger" loading="lazy"></div>
+            <h3>65W Fast Charger</h3>
+            <p class="small">USB-C PD adapter for phones, tablets, and earbuds.</p>
+            <div><span class="stars">★★★★★</span><span class="review-count">(67)</span></div>
+            <div class="meta"><span class="price">KES 4,000</span><button class="btn btn-primary add">Add</button></div>
+          </a>
+        </article>
+
+        <article class="card" data-name="Braided USB-C Cable" data-price="1500" data-category="chargers">
+          <a class="card-link" href="product.html?id=braided-usbc-cable">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80" alt="Braided USB-C Cable" loading="lazy"></div>
+            <h3>Braided USB-C Cable</h3>
+            <p class="small">1.5m reinforced cable with anti-tangle design.</p>
+            <div><span class="stars">★★★★☆</span><span class="review-count">(55)</span></div>
+            <div class="meta"><span class="price">KES 1,500</span><button class="btn btn-primary add">Add</button></div>
+          </a>
+        </article>
+
+        <article class="card" data-name="True Wireless Buds" data-price="6000" data-category="audio">
+          <a class="card-link" href="product.html?id=true-wireless-buds">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80" alt="True Wireless Buds" loading="lazy"></div>
+            <h3>True Wireless Buds</h3>
+            <p class="small">Noise-isolating fit with 24-hour battery case.</p>
+            <div><span class="stars">★★★★★</span><span class="review-count">(91)</span></div>
+            <div class="meta"><span class="price">KES 6,000</span><button class="btn btn-primary add">Add</button></div>
+          </a>
+        </article>
+
+        <article class="card" data-name="Clip-On Lavalier Mic" data-price="3000" data-category="audio">
+          <a class="card-link" href="product.html?id=lavalier-mic">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=400&q=80" alt="Clip-On Lavalier Mic" loading="lazy"></div>
+            <h3>Clip-On Lavalier Mic</h3>
+            <p class="small">Compact mic for reels, calls, and online lessons.</p>
+            <div><span class="stars">★★★★☆</span><span class="review-count">(33)</span></div>
+            <div class="meta"><span class="price">KES 3,000</span><button class="btn btn-primary add">Add</button></div>
+          </a>
+        </article>
+
+        <article class="card" data-name="Dashboard Phone Mount" data-price="1900" data-category="mounts">
+          <a class="card-link" href="product.html?id=dashboard-mount">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1494412651409-8963ce7935a7?w=400&q=80" alt="Dashboard Phone Mount" loading="lazy"></div>
+            <h3>Dashboard Phone Mount</h3>
+            <p class="small">360-degree grip with vibration-resistant clamp.</p>
+            <div><span class="stars">★★★★★</span><span class="review-count">(48)</span></div>
+            <div class="meta"><span class="price">KES 1,900</span><button class="btn btn-primary add">Add</button></div>
+          </a>
+        </article>
+
+        <article class="card" data-name="Bike Handlebar Mount" data-price="2200" data-category="mounts">
+          <a class="card-link" href="product.html?id=bike-mount">
+            <div class="thumb"><img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400&q=80" alt="Bike Handlebar Mount" loading="lazy"></div>
+            <h3>Bike Handlebar Mount</h3>
+            <p class="small">Secure locking design for city and trail rides.</p>
+            <div><span class="stars">★★★★☆</span><span class="review-count">(19)</span></div>
+            <div class="meta"><span class="price">KES 2,200</span><button class="btn btn-primary add">Add</button></div>
+          </a>
+        </article>
+
+      </div>
+      <p id="emptyState" class="empty-state hidden">No products match your search.</p>
+    </section>
+
+    <section id="deals" class="deal">
+      <div>
+        <h2>Weekend Deal: 15% Off Charging Bundles</h2>
+        <p class="small">Use code <strong>POWER15</strong> at checkout.</p>
+      </div>
+      <button class="btn btn-primary" type="button">Claim Offer</button>
+    </section>
+  </main>
+
+  <footer class="container foot">
+    <p style="margin-bottom:0.5rem;font-weight:700;color:var(--ink);">SmartCity &mdash; Your one-stop destination</p>
+    <p style="margin-bottom:0.75rem;">&#128241; Phone Accessories &nbsp;|&nbsp; <a href="bnb.html" style="color:var(--accent);">&#127968; BnB Stay</a> &nbsp;|&nbsp; <a href="restaurant.html" style="color:var(--brand);">&#127869;&#65039; Restaurant</a></p>
+    <p>&#169; 2026 SmartCity. Nairobi, Kenya &mdash; <a href="https://wa.me/254700000000" style="color:var(--accent);">WhatsApp Us</a></p>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <div class="wa-float">
+    <div class="wa-bubble" id="waBubble">Hi! Need help or want to order? Chat with us &#128075;</div>
+    <button class="wa-btn" id="waFloatBtn" aria-label="Chat on WhatsApp">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </button>
+  </div>
+
+  <script>
+    const cards = [...document.querySelectorAll(".card")];
+    const chips = [...document.querySelectorAll(".chip")];
+    const searchInput = document.getElementById("search");
+    const sortSelect = document.getElementById("sort");
+    const cartCount = document.getElementById("cartCount");
+    const productGrid = document.getElementById("productGrid");
+    const navToggle = document.querySelector(".nav-toggle");
+    const emptyState = document.getElementById("emptyState");
+    const CART_KEY = "smartcity_cart";
+    let currentCategory = "all";
+
+    function getCartItems() {
+      try { const raw = localStorage.getItem(CART_KEY); const parsed = raw ? JSON.parse(raw) : []; return Array.isArray(parsed) ? parsed : []; } catch { return []; }
+    }
+    function setCartItems(items) { localStorage.setItem(CART_KEY, JSON.stringify(items)); }
+    function syncCartCount() {
+      const count = getCartItems().reduce((s, i) => s + i.qty, 0);
+      cartCount.textContent = String(count);
+    }
+    function applyFilters() {
+      const text = searchInput.value.trim().toLowerCase();
+      let anyVisible = false;
+      cards.forEach((card) => {
+        const ok = (currentCategory === "all" || card.dataset.category === currentCategory) && card.dataset.name.toLowerCase().includes(text);
+        card.classList.toggle("hidden", !ok);
+        if (ok) anyVisible = true;
+      });
+      if (emptyState) emptyState.classList.toggle("hidden", anyVisible);
+    }
+    function sortCards() {
+      const mode = sortSelect.value;
+      [...cards].sort((a, b) => {
+        const pa = parseFloat(a.dataset.price), pb = parseFloat(b.dataset.price);
+        if (mode === "low") return pa - pb;
+        if (mode === "high") return pb - pa;
+        return 0;
+      }).forEach((c) => productGrid.appendChild(c));
+    }
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        chips.forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        currentCategory = chip.dataset.category;
+        applyFilters();
+      });
+    });
+    searchInput.addEventListener("input", applyFilters);
+    sortSelect.addEventListener("change", sortCards);
+    if (navToggle) navToggle.addEventListener("click", () => document.body.classList.toggle("nav-open"));
+
+    document.querySelectorAll(".add").forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault(); e.stopPropagation();
+        const card = button.closest(".card");
+        const name = card.dataset.name;
+        const price = parseFloat(card.dataset.price);
+        const items = getCartItems();
+        const existing = items.find((i) => i.name === name);
+        if (existing) { existing.qty += 1; } else { items.push({ name, price, qty: 1 }); }
+        setCartItems(items);
+        syncCartCount();
+        button.textContent = "✓ Added";
+        button.classList.add("add-feedback");
+        setTimeout(() => { button.textContent = "Add"; button.classList.remove("add-feedback"); }, 1400);
+      });
+    });
+    syncCartCount();
+
+    // WhatsApp float button
+    const waBubble = document.getElementById("waBubble");
+    const waFloatBtn = document.getElementById("waFloatBtn");
+    setTimeout(() => { if(waBubble) waBubble.classList.add("hidden"); }, 5000);
+    waFloatBtn.addEventListener("click", () => {
+      window.open("https://wa.me/254700000000?text=" + encodeURIComponent("Hello SmartCity! I need some help."), "_blank");
+    });
+  </script>
+</body>
+</html>

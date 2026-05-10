@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCity | Page Not Found</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <style>
+    .error-page {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 0;
+    }
+    .error-inner {
+      display: grid;
+      gap: 1.5rem;
+      max-width: 560px;
+    }
+    .error-graphic {
+      position: relative;
+      margin: 0 auto 0.5rem;
+      width: 220px;
+      height: 220px;
+    }
+    .error-circle {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255,107,53,0.12), rgba(15,157,146,0.12));
+      border: 2px dashed var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: spin-slow 18s linear infinite;
+    }
+    .error-icon {
+      font-size: 5rem;
+      animation: float 3s ease-in-out infinite;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      line-height: 1;
+    }
+    .error-num {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: var(--brand);
+      color: #fff;
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 1.5rem;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(255,107,53,0.4);
+    }
+    .error-inner h1 {
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .error-inner p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    .error-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .error-link-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .error-link-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+    .link-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+    .link-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: block;
+    }
+    .link-name {
+      font-size: 0.97rem;
+      font-weight: 700;
+      display: block;
+    }
+    .search-wrap {
+      display: flex;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.4rem 0.4rem 0.4rem 1rem;
+      box-shadow: var(--shadow);
+    }
+    .search-wrap input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.97rem;
+      color: var(--ink);
+      outline: none;
+    }
+    .search-wrap input::placeholder { color: var(--muted); }
+    .search-wrap button {
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.55rem 1rem;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .search-wrap button:hover { background: var(--brand-dark); }
+    .wa-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #25D366;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.75rem 1.25rem;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      text-decoration: none;
+      justify-content: center;
+    }
+    .wa-cta:hover { background: #1ebe5d; transform: translateY(-2px); }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -50%); }
+      50%       { transform: translate(-50%, calc(-50% - 10px)); }
+    }
+    @media (max-width: 500px) {
+      .error-links { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="logo" href="index.html">SmartCity</a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links">
+        <a href="index.html#products">Shop</a>
+        <a href="index.html#deals">Deals</a>
+        <a href="bnb.html">BnB</a>
+        <a href="restaurant.html">Restaurant</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <a class="cart" href="Cart.html">Cart: <span id="cartCount">0</span></a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="error-page">
+      <div class="error-inner">
+
+        <div class="error-graphic">
+          <div class="error-circle"></div>
+          <span class="error-icon">📱</span>
+          <span class="error-num">404</span>
+        </div>
+
+        <h1>Oops! Page not found.</h1>
+        <p>The page you're looking for doesn't exist or may have been moved. Don't worry — there's plenty more to explore at SmartCity.</p>
+
+        <!-- Quick search -->
+        <div class="search-wrap">
+          <input type="search" id="searchInput" placeholder="Search for products, rooms, food…">
+          <button id="searchBtn">Search</button>
+        </div>
+
+        <!-- Quick links -->
+        <div class="error-links">
+          <a class="error-link-card" href="index.html">
+            <span class="link-icon">📱</span>
+            <span>
+              <span class="link-label">Browse our</span>
+              <span class="link-name">Phone Accessories</span>
+            </span>
+          </a>
+          <a class="error-link-card" href="bnb.html">
+            <span class="link-icon">🏡</span>
+            <span>
+              <span class="link-label">Book a stay at</span>
+              <span class="link-name">SmartCity BnB</span>
+            </span>
+          </a>
+          <a class="error-link-card" href="restaurant.html">
+            <span class="link-icon">🍽️</span>
+            <span>
+              <span class="link-label">Order food at</span>
+              <span class="link-name">Our Restaurant</span>
+            </span>
+          </a>
+          <a class="error-link-card" href="Cart.html">
+            <span class="link-icon">🛒</span>
+            <span>
+              <span class="link-label">Continue to</span>
+              <span class="link-name">Your Cart</span>
+            </span>
+          </a>
+        </div>
+
+        <!-- WhatsApp help -->
+        <div style="border-top: 1px solid var(--line); padding-top: 1.25rem; display: grid; gap: 0.75rem;">
+          <p style="font-size:0.9rem; color:var(--muted);">Still can't find what you need? Chat with us directly.</p>
+          <a class="wa-cta" href="https://wa.me/254700000000?text=Hello%20SmartCity!%20I%20couldn't%20find%20what%20I%20was%20looking%20for%20on%20the%20website." target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Chat with us on WhatsApp
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="container foot">
+    <p style="margin-bottom:0.5rem;font-weight:700;color:var(--ink);">SmartCity &mdash; Your one-stop destination</p>
+    <p style="margin-bottom:0.75rem;">
+      <a href="index.html" style="color:var(--accent);">&#128241; Phone Accessories</a> &nbsp;|&nbsp;
+      <a href="bnb.html" style="color:var(--accent);">&#127968; BnB Stay</a> &nbsp;|&nbsp;
+      <a href="restaurant.html" style="color:var(--brand);">&#127869;&#65039; Restaurant</a>
+    </p>
+    <p>&#169; 2026 SmartCity. Nairobi, Kenya &mdash; <a href="https://wa.me/254700000000" style="color:var(--accent);">WhatsApp Us</a></p>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <div class="wa-float">
+    <div class="wa-bubble" id="waBubble">Lost? We can help you find what you need 👋</div>
+    <button class="wa-btn" id="waFloatBtn" aria-label="Chat on WhatsApp">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </button>
+  </div>
+
+  <script>
+    document.querySelector(".nav-toggle")?.addEventListener("click", () => document.body.classList.toggle("nav-open"));
+    try { const items = JSON.parse(localStorage.getItem("smartcity_cart") || "[]"); document.getElementById("cartCount").textContent = items.reduce((s,i) => s+i.qty, 0); } catch {}
+    setTimeout(() => document.getElementById("waBubble")?.classList.add("hidden"), 5000);
+    document.getElementById("waFloatBtn").addEventListener("click", () => {
+      window.open("https://wa.me/254700000000?text=" + encodeURIComponent("Hello SmartCity! I need some help finding something on the website."), "_blank");
+    });
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      const q = document.getElementById("searchInput").value.trim();
+      if (q) window.location.href = "index.html#products?search=" + encodeURIComponent(q);
+    });
+    document.getElementById("searchInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") document.getElementById("searchBtn").click();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCity | Cart Checkout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+  <style>
+    .checkout-wrap {
+      width: min(1100px, 92%);
+      margin: 2rem auto 3rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .page-head h1 {
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+    }
+
+    .back-link {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1rem;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      padding: 1rem;
+    }
+
+    .panel h2 {
+      margin-bottom: 0.6rem;
+    }
+
+    .cart-list {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .cart-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.75rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .item-top p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .qty-btn {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 999px;
+      width: 30px;
+      height: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .remove-btn {
+      margin-left: auto;
+      border: 1px solid #f2c6b7;
+      background: #fff5f1;
+      color: #b54420;
+      border-radius: 999px;
+      padding: 0.35rem 0.65rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .empty-note {
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .summary-row.total {
+      border-top: 1px solid var(--line);
+      padding-top: 0.55rem;
+      color: var(--ink);
+      font-weight: 700;
+      margin-top: 0.2rem;
+    }
+
+    .pay-methods {
+      margin: 0.9rem 0 0.75rem;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .pay-chip {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .pay-chip.active {
+      border-color: transparent;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .checkout-form {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .field input {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.72rem 0.8rem;
+      font-family: inherit;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+
+    .msg {
+      min-height: 1.1rem;
+      color: var(--brand-dark);
+      font-size: 0.92rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 860px) {
+      .checkout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="logo" href="index.html">SmartCity</a>
+      <a class="back-link" href="index.html">Continue Shopping</a>
+    </div>
+  </header>
+
+  <main class="checkout-wrap">
+    <section class="page-head">
+      <h1>Your Cart Checkout</h1>
+    </section>
+
+    <section class="checkout-grid">
+      <article class="panel">
+        <h2>Items in Cart</h2>
+        <div id="cartList" class="cart-list"></div>
+      </article>
+
+      <article class="panel">
+        <h2>Pay for Your Order</h2>
+        <div class="summary-row">
+          <span>Items</span>
+          <span id="sumItems">0</span>
+        </div>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="sumSubtotal">KES 0.00</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span id="sumShipping">KES 0.00</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span id="sumTotal">KES 0.00</span>
+        </div>
+
+        <div class="pay-methods" role="tablist" aria-label="Payment method">
+          <button class="pay-chip active" type="button" data-method="card">Card</button>
+          <button class="pay-chip" type="button" data-method="mpesa">M-Pesa</button>
+        </div>
+
+        <form id="checkoutForm" class="checkout-form" novalidate>
+          <div class="field">
+            <label for="customerName">Full Name</label>
+            <input id="customerName" type="text" required>
+          </div>
+          <div class="field">
+            <label for="customerEmail">Email</label>
+            <input id="customerEmail" type="email" required>
+          </div>
+
+          <div id="cardFields">
+            <div class="field">
+              <label for="cardNumber">Card Number</label>
+              <input id="cardNumber" type="text" inputmode="numeric" placeholder="4242 4242 4242 4242">
+            </div>
+            <div class="field-grid">
+              <div class="field">
+                <label for="cardExpiry">Expiry (MM/YY)</label>
+                <input id="cardExpiry" type="text" placeholder="08/29">
+              </div>
+              <div class="field">
+                <label for="cardCvv">CVV</label>
+                <input id="cardCvv" type="password" inputmode="numeric" placeholder="123">
+              </div>
+            </div>
+          </div>
+
+          <div id="mpesaFields" class="hidden">
+            <div class="field">
+              <label for="mpesaPhone">M-Pesa Phone</label>
+              <input id="mpesaPhone" type="tel" placeholder="+254712345678">
+            </div>
+          </div>
+
+          <button id="payNow" class="btn btn-primary" type="submit">Pay Now</button>
+          <p id="checkoutMsg" class="msg" role="status" aria-live="polite"></p>
+        </form>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const CART_KEY = "smartcity_cart";
+    const SHIPPING_FEE = 350;
+    const formatter = new Intl.NumberFormat("en-KE", {
+      style: "currency",
+      currency: "KES",
+      minimumFractionDigits: 2
+    });
+
+    const cartList = document.getElementById("cartList");
+    const sumItems = document.getElementById("sumItems");
+    const sumSubtotal = document.getElementById("sumSubtotal");
+    const sumShipping = document.getElementById("sumShipping");
+    const sumTotal = document.getElementById("sumTotal");
+    const payNow = document.getElementById("payNow");
+    const checkoutForm = document.getElementById("checkoutForm");
+    const checkoutMsg = document.getElementById("checkoutMsg");
+    const payChips = [...document.querySelectorAll(".pay-chip")];
+    const cardFields = document.getElementById("cardFields");
+    const mpesaFields = document.getElementById("mpesaFields");
+    let paymentMethod = "card";
+
+    function getCartItems() {
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function setCartItems(items) {
+      localStorage.setItem(CART_KEY, JSON.stringify(items));
+    }
+
+    function totals(items) {
+      const itemsCount = items.reduce((sum, item) => sum + item.qty, 0);
+      const subtotal = items.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const shipping = itemsCount > 0 ? SHIPPING_FEE : 0;
+      const total = subtotal + shipping;
+      return { itemsCount, subtotal, shipping, total };
+    }
+
+    function renderCart() {
+      const items = getCartItems();
+      const { itemsCount, subtotal, shipping, total } = totals(items);
+
+      cartList.innerHTML = "";
+
+      if (!items.length) {
+        cartList.innerHTML = "<p class='empty-note'>Your cart is empty. Add products from the store.</p>";
+        payNow.disabled = true;
+      } else {
+        items.forEach((item) => {
+          const lineTotal = item.price * item.qty;
+          const row = document.createElement("article");
+          row.className = "cart-item";
+          row.innerHTML =
+            "<div class='item-top'>" +
+              "<div><strong>" + item.name + "</strong><p>" + formatter.format(item.price) + " each</p></div>" +
+              "<strong>" + formatter.format(lineTotal) + "</strong>" +
+            "</div>" +
+            "<div class='qty-row'>" +
+              "<button type='button' class='qty-btn' data-action='decrease' data-name='" + item.name + "'>-</button>" +
+              "<span>Qty: " + item.qty + "</span>" +
+              "<button type='button' class='qty-btn' data-action='increase' data-name='" + item.name + "'>+</button>" +
+              "<button type='button' class='remove-btn' data-action='remove' data-name='" + item.name + "'>Remove</button>" +
+            "</div>";
+          cartList.appendChild(row);
+        });
+        payNow.disabled = false;
+      }
+
+      sumItems.textContent = String(itemsCount);
+      sumSubtotal.textContent = formatter.format(subtotal);
+      sumShipping.textContent = formatter.format(shipping);
+      sumTotal.textContent = formatter.format(total);
+    }
+
+    function updateItem(name, mode) {
+      const items = getCartItems();
+      const target = items.find((item) => item.name === name);
+      if (!target) return;
+
+      if (mode === "increase") {
+        target.qty += 1;
+      } else if (mode === "decrease") {
+        target.qty -= 1;
+      } else if (mode === "remove") {
+        target.qty = 0;
+      }
+
+      const cleaned = items.filter((item) => item.qty > 0);
+      setCartItems(cleaned);
+      renderCart();
+    }
+
+    cartList.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-action]");
+      if (!button) return;
+      const action = button.dataset.action;
+      const name = button.dataset.name;
+      updateItem(name, action);
+      checkoutMsg.textContent = "";
+    });
+
+    payChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        payChips.forEach((item) => item.classList.remove("active"));
+        chip.classList.add("active");
+        paymentMethod = chip.dataset.method;
+        cardFields.classList.toggle("hidden", paymentMethod !== "card");
+        mpesaFields.classList.toggle("hidden", paymentMethod !== "mpesa");
+        checkoutMsg.textContent = "";
+      });
+    });
+
+    checkoutForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      checkoutMsg.textContent = "";
+
+      const items = getCartItems();
+      const { itemsCount, total } = totals(items);
+      const name = document.getElementById("customerName").value.trim();
+      const email = document.getElementById("customerEmail").value.trim();
+
+      if (!itemsCount) {
+        checkoutMsg.textContent = "Your cart is empty.";
+        return;
+      }
+      if (!name || !email) {
+        checkoutMsg.textContent = "Enter your full name and email.";
+        return;
+      }
+
+      if (paymentMethod === "card") {
+        const cardNumberRaw = document.getElementById("cardNumber").value.replace(/\s+/g, "");
+        const expiry = document.getElementById("cardExpiry").value.trim();
+        const cvv = document.getElementById("cardCvv").value.trim();
+
+        if (!/^\d{12,19}$/.test(cardNumberRaw)) {
+          checkoutMsg.textContent = "Enter a valid card number.";
+          return;
+        }
+        if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) {
+          checkoutMsg.textContent = "Use expiry format MM/YY.";
+          return;
+        }
+        if (!/^\d{3,4}$/.test(cvv)) {
+          checkoutMsg.textContent = "Enter a valid CVV.";
+          return;
+        }
+      } else {
+        const mpesaPhone = document.getElementById("mpesaPhone").value.trim();
+        if (!/^(?:\+254|0)\d{9}$/.test(mpesaPhone)) {
+          checkoutMsg.textContent = "Use a valid M-Pesa number, e.g. +254712345678.";
+          return;
+        }
+      }
+
+      const orderId = "SC-" + new Date().toISOString().slice(0, 10).replace(/-/g, "") + "-" + Math.floor(100 + Math.random() * 900);
+      const methodLabel = paymentMethod === "card" ? "Card" : "M-Pesa";
+      checkoutMsg.textContent = "Payment successful via " + methodLabel + ". Charged " + formatter.format(total) + ". Order " + orderId + ".";
+      localStorage.removeItem(CART_KEY);
+      checkoutForm.reset();
+      paymentMethod = "card";
+      payChips.forEach((chip) => chip.classList.remove("active"));
+      payChips[0].classList.add("active");
+      cardFields.classList.remove("hidden");
+      mpesaFields.classList.add("hidden");
+      renderCart();
+    });
+
+    renderCart();
+  </script>
+</body>
+</html>
