@@ -1,1 +1,1 @@
-# smarycity
+# smartcity
